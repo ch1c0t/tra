@@ -1,0 +1,2 @@
+require 'tra'
+Tra.run

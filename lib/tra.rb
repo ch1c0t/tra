@@ -7,7 +7,7 @@ require_relative 'tra/fork'
 module Tra
   QUEUE = Queue.new
 
-  DIRECTORY = "/tmp/tractor"
+  DIRECTORY = "/tmp/tra"
   FILE = -> pid { "#{DIRECTORY}/#{pid}" }
 
   class << self

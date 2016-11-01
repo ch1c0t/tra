@@ -14,4 +14,4 @@ binding.pry
 p Tra.next
 =end
 Tra.take(5).each { |message| p message }
-child.put [:my, :message]
+child.put [:my, :message, "with\n newlines\n"]

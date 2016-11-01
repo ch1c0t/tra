@@ -33,7 +33,8 @@ module Tra
       def patch_Integer_shamelessly
         Integer.class_eval do
           def put message
-            Socket.unix(FILE[self]).write "#{Marshal.dump message}\n"
+            message = Marshal.dump message
+            Socket.unix(FILE[self]).write "#{message.size}:#{message}"
           end
         end
       end

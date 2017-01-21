@@ -11,12 +11,14 @@ module Tra
   FILE = -> pid { "#{DIRECTORY}/#{pid}" }
 
   class << self
-    ENUMERATOR = Enumerator.new do |y|
-      loop { y << QUEUE.pop }
+    def enumerator
+      @enumerator ||= Enumerator.new do |y|
+        loop { y << QUEUE.pop }
+      end
     end
 
     extend Forwardable
-    delegate [:next, :take] => :ENUMERATOR
+    delegate [:next, :take] => :enumerator
 
     def run
       Mailbox.receive

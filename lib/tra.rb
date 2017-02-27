@@ -5,10 +5,8 @@ require_relative 'tra/mailbox'
 require_relative 'tra/fork'
 
 module Tra
-  QUEUE = Queue.new
-
-  DIRECTORY = "/tmp/tra"
-  FILE = -> pid { "#{DIRECTORY}/#{pid}" }
+  QUEUE, PATTERNS = Queue.new, {}
+  DIRECTORY, FILE = '/tmp/tra', -> pid { "#{DIRECTORY}/#{pid}" }
 
   class << self
     def enumerator
@@ -19,6 +17,10 @@ module Tra
 
     extend Forwardable
     delegate [:next, :take] => :enumerator
+
+    def on pattern, &action
+      PATTERNS[pattern] = action
+    end
 
     def run
       Mailbox.receive

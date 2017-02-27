@@ -7,7 +7,18 @@ module Tra
 
         Thread.new do
           Socket.unix_server_loop file do |socket|
-            QUEUE << (Marshal.load socket.read size_of_message_from socket)
+            message = Marshal.load socket.read size_of_message_from socket
+            patterns = PATTERNS.select { |pattern, _| pattern === message }
+
+            if patterns.empty?
+              QUEUE << message
+            else
+              Thread.new do
+                patterns.each do |_, action|
+                  Thread.new { action.call message }
+                end
+              end
+            end
           end
         end
 

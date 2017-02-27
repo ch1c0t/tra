@@ -1,7 +1,7 @@
 module Tra
   module Fork
     def fork
-      super { QUEUE.clear; Mailbox.receive; yield }
+      super { QUEUE.clear; PATTERNS.clear; Mailbox.receive; yield }
     end
   end
 end
